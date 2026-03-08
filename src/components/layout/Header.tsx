@@ -1,21 +1,30 @@
-import { Link } from "react-router-dom";
-import { Search, ShoppingCart, User, Menu, Heart } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Search, ShoppingCart, User, Menu, Heart, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/lib/cart-context";
+import { useAuth } from "@/lib/auth-context";
 import { useState } from "react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { categories } from "@/lib/mock-data";
 
 const Header = () => {
   const { totalItems } = useCart();
+  const { user, isAdmin, isStaff, signOut } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       window.location.href = `/products?search=${encodeURIComponent(searchQuery.trim())}`;
     }
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
   };
 
   return (
@@ -50,8 +59,18 @@ const Header = () => {
                 </Link>
               ))}
               <hr className="my-2" />
-              <Link to="/login" className="rounded-md px-3 py-2 text-sm font-medium hover:bg-secondary">Sign In</Link>
-              <Link to="/register" className="rounded-md px-3 py-2 text-sm font-medium hover:bg-secondary">Register</Link>
+              {user ? (
+                <>
+                  <Link to="/dashboard" className="rounded-md px-3 py-2 text-sm font-medium hover:bg-secondary">My Account</Link>
+                  {isAdmin && <Link to="/admin" className="rounded-md px-3 py-2 text-sm font-medium hover:bg-secondary">Admin</Link>}
+                  <button onClick={handleSignOut} className="rounded-md px-3 py-2 text-left text-sm font-medium hover:bg-secondary">Sign Out</button>
+                </>
+              ) : (
+                <>
+                  <Link to="/login" className="rounded-md px-3 py-2 text-sm font-medium hover:bg-secondary">Sign In</Link>
+                  <Link to="/register" className="rounded-md px-3 py-2 text-sm font-medium hover:bg-secondary">Register</Link>
+                </>
+              )}
             </nav>
           </SheetContent>
         </Sheet>
@@ -95,12 +114,33 @@ const Header = () => {
               )}
             </Button>
           </Link>
-          <Link to="/login" className="hidden sm:block">
-            <Button variant="ghost" size="sm" className="gap-2">
-              <User className="h-4 w-4" />
-              <span>Sign In</span>
-            </Button>
-          </Link>
+
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="hidden gap-2 sm:flex">
+                  <User className="h-4 w-4" />
+                  <span className="max-w-[100px] truncate">{user.email?.split("@")[0]}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => navigate("/dashboard")}>My Account</DropdownMenuItem>
+                {isAdmin && <DropdownMenuItem onClick={() => navigate("/admin")}>Admin Dashboard</DropdownMenuItem>}
+                {isStaff && <DropdownMenuItem onClick={() => navigate("/admin")}>Staff Dashboard</DropdownMenuItem>}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleSignOut}>
+                  <LogOut className="mr-2 h-4 w-4" /> Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Link to="/login" className="hidden sm:block">
+              <Button variant="ghost" size="sm" className="gap-2">
+                <User className="h-4 w-4" />
+                <span>Sign In</span>
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
 
