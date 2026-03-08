@@ -115,7 +115,7 @@ const ProductsPage = () => {
             </div>
             <div>
               <label className="mb-2 block text-sm font-semibold">Condition</label>
-              <Select value={condition} onValueChange={setCondition}>
+              <Select value={condition || "any"} onValueChange={(v) => setCondition(v === "any" ? "" : v)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Any" />
                 </SelectTrigger>
