@@ -34,6 +34,12 @@ const ProductsPage = () => {
     if (condition) {
       result = result.filter((p) => p.condition === condition);
     }
+    if (priceMin) {
+      result = result.filter((p) => p.price >= Number(priceMin));
+    }
+    if (priceMax) {
+      result = result.filter((p) => p.price <= Number(priceMax));
+    }
 
     switch (sortBy) {
       case "price-asc":
