@@ -101,7 +101,7 @@ const ProductsPage = () => {
             </div>
             <div>
               <label className="mb-2 block text-sm font-semibold">Category</label>
-              <Select value={category} onValueChange={setCategory}>
+              <Select value={category || "all"} onValueChange={(v) => setCategory(v === "all" ? "" : v)}>
                 <SelectTrigger>
                   <SelectValue placeholder="All Categories" />
                 </SelectTrigger>
