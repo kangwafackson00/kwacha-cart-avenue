@@ -4,6 +4,7 @@ const features = [
   { icon: <Shield className="h-5 w-5" />, title: "Secure Shopping", desc: "Safe & trusted platform" },
   { icon: <Truck className="h-5 w-5" />, title: "Nationwide Delivery", desc: "Across Zambia" },
   { icon: <Phone className="h-5 w-5" />, title: "Mobile Money", desc: "MTN, Airtel, Zamtel" },
+  { icon: <Phone className="h-5 w-5" />, title: "+260 974 815 758", desc: "Call or WhatsApp" },
 ];
 
 const TrustBanner = () => {
