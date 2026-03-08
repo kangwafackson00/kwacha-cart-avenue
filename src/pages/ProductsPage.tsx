@@ -62,11 +62,13 @@ const ProductsPage = () => {
     setSearch("");
     setCategory("");
     setCondition("");
+    setPriceMin("");
+    setPriceMax("");
     setSortBy("newest");
     setSearchParams({});
   };
 
-  const hasFilters = search || category || condition;
+  const hasFilters = search || category || condition || priceMin || priceMax;
 
   return (
     <MainLayout>
