@@ -124,6 +124,26 @@ const ProductsPage = () => {
               </Select>
             </div>
             <div>
+              <label className="mb-2 block text-sm font-semibold">Price Range (ZMW)</label>
+              <div className="flex items-center gap-2">
+                <Input
+                  type="number"
+                  placeholder="Min"
+                  value={priceMin}
+                  onChange={(e) => setPriceMin(e.target.value)}
+                  className="w-full"
+                />
+                <span className="text-muted-foreground">–</span>
+                <Input
+                  type="number"
+                  placeholder="Max"
+                  value={priceMax}
+                  onChange={(e) => setPriceMax(e.target.value)}
+                  className="w-full"
+                />
+              </div>
+            </div>
+            <div>
               <label className="mb-2 block text-sm font-semibold">Condition</label>
               <Select value={condition || "any"} onValueChange={(v) => setCondition(v === "any" ? "" : v)}>
                 <SelectTrigger>
