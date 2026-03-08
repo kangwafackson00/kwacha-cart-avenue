@@ -16,6 +16,8 @@ const ProductsPage = () => {
   const [search, setSearch] = useState(initialSearch);
   const [category, setCategory] = useState(initialCategory);
   const [condition, setCondition] = useState("");
+  const [priceMin, setPriceMin] = useState("");
+  const [priceMax, setPriceMax] = useState("");
   const [sortBy, setSortBy] = useState("newest");
   const [showFilters, setShowFilters] = useState(false);
 
@@ -31,6 +33,12 @@ const ProductsPage = () => {
     }
     if (condition) {
       result = result.filter((p) => p.condition === condition);
+    }
+    if (priceMin) {
+      result = result.filter((p) => p.price >= Number(priceMin));
+    }
+    if (priceMax) {
+      result = result.filter((p) => p.price <= Number(priceMax));
     }
 
     switch (sortBy) {
@@ -48,17 +56,19 @@ const ProductsPage = () => {
     }
 
     return result;
-  }, [search, category, condition, sortBy]);
+  }, [search, category, condition, priceMin, priceMax, sortBy]);
 
   const clearFilters = () => {
     setSearch("");
     setCategory("");
     setCondition("");
+    setPriceMin("");
+    setPriceMax("");
     setSortBy("newest");
     setSearchParams({});
   };
 
-  const hasFilters = search || category || condition;
+  const hasFilters = search || category || condition || priceMin || priceMax;
 
   return (
     <MainLayout>
@@ -112,6 +122,26 @@ const ProductsPage = () => {
                   ))}
                 </SelectContent>
               </Select>
+            </div>
+            <div>
+              <label className="mb-2 block text-sm font-semibold">Price Range (ZMW)</label>
+              <div className="flex items-center gap-2">
+                <Input
+                  type="number"
+                  placeholder="Min"
+                  value={priceMin}
+                  onChange={(e) => setPriceMin(e.target.value)}
+                  className="w-full"
+                />
+                <span className="text-muted-foreground">–</span>
+                <Input
+                  type="number"
+                  placeholder="Max"
+                  value={priceMax}
+                  onChange={(e) => setPriceMax(e.target.value)}
+                  className="w-full"
+                />
+              </div>
             </div>
             <div>
               <label className="mb-2 block text-sm font-semibold">Condition</label>
