@@ -16,6 +16,8 @@ const ProductsPage = () => {
   const [search, setSearch] = useState(initialSearch);
   const [category, setCategory] = useState(initialCategory);
   const [condition, setCondition] = useState("");
+  const [priceMin, setPriceMin] = useState("");
+  const [priceMax, setPriceMax] = useState("");
   const [sortBy, setSortBy] = useState("newest");
   const [showFilters, setShowFilters] = useState(false);
 
