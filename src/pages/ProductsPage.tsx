@@ -56,7 +56,7 @@ const ProductsPage = () => {
     }
 
     return result;
-  }, [search, category, condition, sortBy]);
+  }, [search, category, condition, priceMin, priceMax, sortBy]);
 
   const clearFilters = () => {
     setSearch("");
